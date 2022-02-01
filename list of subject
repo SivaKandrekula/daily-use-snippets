@@ -1,0 +1,13 @@
+proc sql noprint;
+select distinct quote(trim(subjid)) into :sub separated by ","  from CM where ind eq "Y";
+quit;
+
+/* SAS EQUIVALENT CODE */
+
+data _null_;
+set col_code end=done;
+length collist $1000; * set sufficient length here;
+retain collist;
+collist = catx(',',"'"!!col_code!!"'",trim(collist));
+if done then call symput('collist',trim(collist));
+run;
